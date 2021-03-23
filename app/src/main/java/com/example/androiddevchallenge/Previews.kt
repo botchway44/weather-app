@@ -19,6 +19,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.androiddevchallenge.ui.theme.MyTheme
 
+
+
 @Preview("Light Theme", widthDp = 360, heightDp = 640)
 @Composable
 fun LightPreview() {
@@ -26,6 +28,8 @@ fun LightPreview() {
         MyApp()
     }
 }
+
+
 
 @Preview("Dark Theme", widthDp = 360, heightDp = 640)
 @Composable
