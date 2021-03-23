@@ -30,6 +30,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.LinearGradient
+import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,10 +41,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
+import com.example.androiddevchallenge.components.BottomNavigationScreens
+import com.example.androiddevchallenge.components.WeatherAppBottomNavigation
 import com.example.androiddevchallenge.components.SearchBar
 import com.example.androiddevchallenge.components.VerticalGrid
 import com.example.androiddevchallenge.components.WeatherCard
 import com.example.androiddevchallenge.data.WeatherInfo
+import com.example.androiddevchallenge.data.initalWeather
 import com.example.androiddevchallenge.ui.theme.MyTheme
 
 class MainActivity : AppCompatActivity() {
@@ -64,22 +71,8 @@ fun MyApp() {
 }
 
 
-private val initalWeather = listOf(
-    WeatherInfo(temperature = 32, state = "Accra", country = "GHANA", drops = 17, windy = 9, resource = R.drawable.ic_rainy ),
-    WeatherInfo(temperature = 12, state = "Kumasi", country = "GHANA", drops = 57, windy = 31, resource = R.drawable.ic_cloudy ),
-    WeatherInfo(temperature = 30, state = "Bangkok", country = "THA", drops = 42, windy = 7, resource = R.drawable.ic_snowy ),
-    WeatherInfo(temperature = 24, state = "Austin", country = "USA", drops = 34, windy = 16, resource = R.drawable.ic_snowflake ),
-    WeatherInfo(temperature = 31, state = "Austin", country = "USA", drops = 25, windy = 9, resource = R.drawable.ic_sun ),
-    WeatherInfo(temperature = 15, state = "Austin", country = "USA", drops = 60, windy = 11, resource = R.drawable.ic_rainy ),
-    WeatherInfo(temperature = 19, state = "Austin", country = "USA", drops = 35, windy = 7, resource = R.drawable.ic_snowy ),
-    WeatherInfo(temperature = 17, state = "Austin", country = "USA", drops = 19, windy = 14, resource = R.drawable.ic_cloudy ),
-)
 
 
-sealed class BottomNavigationScreens(val route: String, @StringRes val resourceId: Int, val icon: Int) {
-    object CurrentWeatherPage : BottomNavigationScreens("CurrentWeatherPage", R.string.currentWeather, R.drawable.ic_rainy)
-    object DetailedWeatherList : BottomNavigationScreens("DetailedWeatherList", R.string.temperature, R.drawable.ic_thermometer)
-   }
 
 @Composable
 fun MainScreen() {
@@ -107,18 +100,22 @@ private fun MainScreenNavigationConfigurations(
     NavHost(navController, startDestination = BottomNavigationScreens.CurrentWeatherPage.route) {
 
         composable(BottomNavigationScreens.CurrentWeatherPage.route) {
-            Text("Hello Details Route")
+            CurrentWeatherStatus()
         }
 
         composable(BottomNavigationScreens.DetailedWeatherList.route) {
             Column(
                 modifier = Modifier.padding(horizontal = 10.dp, )
             ){
+                Spacer(modifier = Modifier.height(30.dp))
 
-                SearchBar(modifier  = Modifier.fillMaxWidth()
+                SearchBar(modifier  = Modifier
+                    .fillMaxWidth()
                     .clip(RoundedCornerShape(30.dp))
-                    .padding(horizontal = 2.dp, vertical = 20.dp)
+                    .padding(horizontal = 2.dp,)
                     .height(50.dp))
+
+                Spacer(modifier = Modifier.height(30.dp))
 
                 LocationWeatherList(initalWeather)
             }
@@ -128,42 +125,183 @@ private fun MainScreenNavigationConfigurations(
 }
 
 
+@Composable
+fun CurrentWeatherStatus(){
+   Column(
+
+       modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()) ,
+       verticalArrangement = Arrangement.Center,
+       horizontalAlignment = Alignment.CenterHorizontally
+
+   ) {
+
+       Spacer(modifier = Modifier.height(30.dp))
+
+
+       Row(
+           modifier = Modifier.fillMaxWidth() ,
+           horizontalArrangement = Arrangement.Center,
+           verticalAlignment = Alignment.CenterVertically
+       ){
+
+           Image(
+               painter = painterResource(id = R.drawable.ic_navigation),
+               contentDescription = "description of the image",
+               modifier = Modifier
+                   .padding(horizontal = 5.dp)
+                   .height(15.dp)
+           )
+
+           Text(text = "Your Location Now", fontSize = 3.1.em, color = MaterialTheme.colors.onPrimary)
+
+       }
+       Spacer(modifier = Modifier.height(10.dp))
+
+       Row(
+           modifier = Modifier.fillMaxWidth() ,
+           horizontalArrangement = Arrangement.Center,
+           verticalAlignment = Alignment.CenterVertically
+       ){
+
+           Text(text = "Kumasi, Kentinkrono, Ghana", fontSize = 3.6.em, color = MaterialTheme.colors.onPrimary)
+
+       }
+
+       Spacer(modifier = Modifier.height(30.dp))
+
+       Canvas(modifier = Modifier
+           .fillMaxWidth()
+           .height(200.dp),
+
+           onDraw = {
+               val canvasWidth = size.width
+               val canvasHeight = size.height
+
+
+
+//               val gradient = LinearGradient(
+//                colors =   listOf(Color.Blue, Color.Black),
+//                   start = Offset(size.width / 2f - 64,  size.height / 2 - 64,),
+//                   end = Offset(size.width / 2 + 64,  size.height / 2 + 64),
+//                   tileMode = TileMode.Clamp
+//               )
+//               drawCircle(
+//                   gradient, 64f,
+//               )
+
+
+           drawCircle(
+               color = Color.Blue,
+               center = Offset(x = canvasWidth / 2, y = canvasHeight / 2),
+               radius = size.minDimension / 3.4f
+           )
+
+       })
+
+       Spacer(modifier = Modifier.height(10.dp))
+
+       Text(text = "Moonlight°", fontSize = 3.1.em, color = MaterialTheme.colors.onPrimary)
+
+       Spacer(modifier = Modifier.height(20.dp))
+
+       Text(text = "20°C", fontSize = 10.1.em, color = MaterialTheme.colors.onPrimary)
+
+       Spacer(modifier = Modifier.height(10.dp))
+
+       Row(modifier = Modifier.fillMaxWidth(0.6f), horizontalArrangement = Arrangement.SpaceBetween){
+           Row(
+               verticalAlignment = Alignment.CenterVertically
+           ){
+               Image(
+                   painter = painterResource(id = R.drawable.ic_wind),
+                   contentDescription = "description of the image",
+                   modifier = Modifier
+                       .padding(horizontal = 5.dp)
+                       .height(17.dp)
+               )
+
+               Text(text = "20km/h", fontSize = 3.0.em,color = MaterialTheme.colors.onPrimary, modifier = Modifier.padding(horizontal = 1.dp))
+           }
+
+           Row(
+               verticalAlignment = Alignment.CenterVertically
+           ){
+               Image(
+                   painter = painterResource(id = R.drawable.ic_drop),
+                   contentDescription = "description of the image",
+                   modifier = Modifier
+                       .padding(horizontal = 5.dp)
+                       .height(15.dp)
+               )
+
+               Text(text = "7%", fontSize = 3.0.em,color = MaterialTheme.colors.onPrimary, modifier = Modifier.padding(horizontal = 1.dp))
+           }
+
+           Row(
+               verticalAlignment = Alignment.CenterVertically
+           ){
+               Image(
+                   painter = painterResource(id = R.drawable.ic_exclamation),
+                   contentDescription = "description of the image",
+                   modifier = Modifier
+                       .padding(horizontal = 5.dp)
+                       .height(15.dp)
+               )
+
+               Text(text = "0.533mBar", fontSize = 3.0.em,color = MaterialTheme.colors.onPrimary, modifier = Modifier.padding(horizontal = 1.dp))
+           }
+       }
+
+       Spacer(modifier = Modifier.height(40.dp))
+
+       //List Measurement Items
+       Column(
+           modifier = Modifier.fillMaxWidth(0.90f),
+       ) {
+           WeatherMeasurementListItem("Temperature", "Celcius", R.drawable.ic_right_chevron)
+           Spacer(modifier = Modifier.height(30.dp))
+           WeatherMeasurementListItem("Wind Speed", "m/s", R.drawable.ic_right_chevron)
+           Spacer(modifier = Modifier.height(30.dp))
+           WeatherMeasurementListItem("Source", "weather.gov", R.drawable.ic_right_chevron)
+
+       }
+   }
+
+}
+
 
 
 @Composable
-private fun WeatherAppBottomNavigation(
-    navController: NavHostController,
-    items: List<BottomNavigationScreens>
-) {
-    BottomNavigation(
-        modifier = Modifier.background(MaterialTheme.colors.surface) ,
-        backgroundColor = MaterialTheme.colors.surface
-    ) {
-        val currentRoute = currentRoute(navController)
-        items.forEach { screen ->
-            BottomNavigationItem(
-                icon = {
-                    Image(
-                        painter = painterResource(id = screen.icon),
-                        contentDescription = "description of the image",
-                        modifier = Modifier
-                            .padding(horizontal = 2.dp)
-                            .height(20.dp)
-                    )
-                },
-                label = { Text(stringResource(id = screen.resourceId)) },
-                selected = currentRoute == screen.route,
-                alwaysShowLabel = false, // This hides the title for the unselected items
-                onClick = {
-                    if (currentRoute != screen.route) {
-                        navController.navigate(screen.route)
-                    }
-                }
+fun WeatherMeasurementListItem(
+    measurement : String,
+    value : String,
+    icon : Int
+){
+
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ){
+        Text(text = "$measurement",fontSize = 3.5.em)
+
+        Row(
+            modifier = Modifier.wrapContentWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+
+        ) {
+            Text(text = "$value", fontSize = 3.0.em)
+
+            Image(
+                painter = painterResource(id = icon),
+                contentDescription = "description of the image",
+                modifier = Modifier
+                    .padding(horizontal = 5.dp)
+                    .height(15.dp)
             )
         }
     }
 }
-
 @Composable
 fun LocationWeatherList(
     weatherInfoList : List<WeatherInfo>
@@ -178,9 +316,3 @@ fun LocationWeatherList(
 
 
 
-
-@Composable
-private fun currentRoute(navController: NavHostController): String? {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    return navBackStackEntry?.arguments?.getString(KEY_ROUTE)
-}
