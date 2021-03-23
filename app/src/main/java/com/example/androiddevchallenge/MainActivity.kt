@@ -124,7 +124,7 @@ private fun MainScreenNavigationConfigurations(
     }
 }
 
-
+@Preview
 @Composable
 fun CurrentWeatherStatus(){
    Column(
@@ -200,7 +200,8 @@ fun CurrentWeatherStatus(){
 
        Spacer(modifier = Modifier.height(10.dp))
 
-       Text(text = "Moonlight°", fontSize = 3.1.em, color = MaterialTheme.colors.onPrimary)
+       Text(text = "Moonlight", fontSize = 3.2.em, color = MaterialTheme.colors.onPrimary , modifier = Modifier.padding(5.dp).clip(
+           RoundedCornerShape(20.dp)).background( Color(0xFF353361)).padding(10.dp) )
 
        Spacer(modifier = Modifier.height(20.dp))
 
@@ -220,7 +221,7 @@ fun CurrentWeatherStatus(){
                        .height(17.dp)
                )
 
-               Text(text = "20km/h", fontSize = 3.0.em,color = MaterialTheme.colors.onPrimary, modifier = Modifier.padding(horizontal = 1.dp))
+               Text(text = "20km/h", fontSize = 3.0.em, modifier = Modifier.padding(horizontal = 1.dp))
            }
 
            Row(

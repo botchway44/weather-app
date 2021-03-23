@@ -43,7 +43,7 @@ fun SearchBar(
             contentDescription = "description of the image",
             modifier = Modifier
                 .padding(horizontal = 20.dp)
-                .height(20.dp)
+                .height(16.dp)
 
         )
 
