@@ -17,34 +17,43 @@ package com.example.androiddevchallenge
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.MoreVert
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.LinearGradient
-import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.*
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.androiddevchallenge.components.BottomNavigationScreens
-import com.example.androiddevchallenge.components.WeatherAppBottomNavigation
 import com.example.androiddevchallenge.components.SearchBar
 import com.example.androiddevchallenge.components.VerticalGrid
+import com.example.androiddevchallenge.components.WeatherAppBottomNavigation
 import com.example.androiddevchallenge.components.WeatherCard
 import com.example.androiddevchallenge.data.WeatherInfo
 import com.example.androiddevchallenge.data.initalWeather
@@ -61,7 +70,6 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-
 // Start building your app here!
 @Composable
 fun MyApp() {
@@ -69,10 +77,6 @@ fun MyApp() {
         Text(text = "Ready... Set... GO!")
     }
 }
-
-
-
-
 
 @Composable
 fun MainScreen() {
@@ -105,79 +109,76 @@ private fun MainScreenNavigationConfigurations(
 
         composable(BottomNavigationScreens.DetailedWeatherList.route) {
             Column(
-                modifier = Modifier.padding(horizontal = 10.dp, )
-            ){
+                modifier = Modifier.padding(horizontal = 10.dp,)
+            ) {
                 Spacer(modifier = Modifier.height(30.dp))
 
-                SearchBar(modifier  = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(30.dp))
-                    .padding(horizontal = 2.dp,)
-                    .height(50.dp))
+                SearchBar(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(30.dp))
+                        .padding(horizontal = 2.dp,)
+                        .height(50.dp)
+                )
 
                 Spacer(modifier = Modifier.height(30.dp))
 
                 LocationWeatherList(initalWeather)
             }
         }
-
     }
 }
 
 @Preview
 @Composable
-fun CurrentWeatherStatus(){
-   Column(
+fun CurrentWeatherStatus() {
+    Column(
 
-       modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()) ,
-       verticalArrangement = Arrangement.Center,
-       horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
 
-   ) {
+    ) {
 
-       Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.height(30.dp))
 
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
 
-       Row(
-           modifier = Modifier.fillMaxWidth() ,
-           horizontalArrangement = Arrangement.Center,
-           verticalAlignment = Alignment.CenterVertically
-       ){
+            Image(
+                painter = painterResource(id = R.drawable.ic_navigation),
+                contentDescription = "description of the image",
+                modifier = Modifier
+                    .padding(horizontal = 5.dp)
+                    .height(15.dp)
+            )
 
-           Image(
-               painter = painterResource(id = R.drawable.ic_navigation),
-               contentDescription = "description of the image",
-               modifier = Modifier
-                   .padding(horizontal = 5.dp)
-                   .height(15.dp)
-           )
+            Text(text = "Your Location Now", fontSize = 3.1.em, color = MaterialTheme.colors.onPrimary)
+        }
+        Spacer(modifier = Modifier.height(10.dp))
 
-           Text(text = "Your Location Now", fontSize = 3.1.em, color = MaterialTheme.colors.onPrimary)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
 
-       }
-       Spacer(modifier = Modifier.height(10.dp))
+            Text(text = "Kumasi, Kentinkrono, Ghana", fontSize = 3.6.em, color = MaterialTheme.colors.onPrimary)
+        }
 
-       Row(
-           modifier = Modifier.fillMaxWidth() ,
-           horizontalArrangement = Arrangement.Center,
-           verticalAlignment = Alignment.CenterVertically
-       ){
+        Spacer(modifier = Modifier.height(10.dp))
 
-           Text(text = "Kumasi, Kentinkrono, Ghana", fontSize = 3.6.em, color = MaterialTheme.colors.onPrimary)
+        Canvas(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp),
 
-       }
-
-       Spacer(modifier = Modifier.height(30.dp))
-
-       Canvas(modifier = Modifier
-           .fillMaxWidth()
-           .height(200.dp),
-
-           onDraw = {
-               val canvasWidth = size.width
-               val canvasHeight = size.height
-
-
+            onDraw = {
+                val canvasWidth = size.width
+                val canvasHeight = size.height
 
 //               val gradient = LinearGradient(
 //                colors =   listOf(Color.Blue, Color.Black),
@@ -189,102 +190,99 @@ fun CurrentWeatherStatus(){
 //                   gradient, 64f,
 //               )
 
+                drawCircle(
+                    color = Color.Blue,
+                    center = Offset(x = canvasWidth / 2, y = canvasHeight / 2),
+                    radius = size.minDimension / 3.4f
+                )
+            }
+        )
 
-           drawCircle(
-               color = Color.Blue,
-               center = Offset(x = canvasWidth / 2, y = canvasHeight / 2),
-               radius = size.minDimension / 3.4f
-           )
+        Text(
+            text = "Moonlight", fontSize = 3.2.em, color = MaterialTheme.colors.onPrimary,
+            modifier = Modifier.padding(5.dp).clip(
+                RoundedCornerShape(20.dp)
+            ).background(Color(0xFF353361)).padding(10.dp)
+        )
 
-       })
+        Spacer(modifier = Modifier.height(20.dp))
 
-       Spacer(modifier = Modifier.height(10.dp))
+        Text(text = "20°C", fontSize = 10.1.em, color = MaterialTheme.colors.onPrimary)
 
-       Text(text = "Moonlight", fontSize = 3.2.em, color = MaterialTheme.colors.onPrimary , modifier = Modifier.padding(5.dp).clip(
-           RoundedCornerShape(20.dp)).background( Color(0xFF353361)).padding(10.dp) )
+        Spacer(modifier = Modifier.height(10.dp))
 
-       Spacer(modifier = Modifier.height(20.dp))
+        Row(modifier = Modifier.fillMaxWidth(0.6f), horizontalArrangement = Arrangement.SpaceBetween) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_wind),
+                    contentDescription = "description of the image",
+                    modifier = Modifier
+                        .padding(horizontal = 5.dp)
+                        .height(17.dp)
+                )
 
-       Text(text = "20°C", fontSize = 10.1.em, color = MaterialTheme.colors.onPrimary)
+                Text(text = "20km/h", fontSize = 3.0.em, modifier = Modifier.padding(horizontal = 1.dp))
+            }
 
-       Spacer(modifier = Modifier.height(10.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_drop),
+                    contentDescription = "description of the image",
+                    modifier = Modifier
+                        .padding(horizontal = 5.dp)
+                        .height(15.dp)
+                )
 
-       Row(modifier = Modifier.fillMaxWidth(0.6f), horizontalArrangement = Arrangement.SpaceBetween){
-           Row(
-               verticalAlignment = Alignment.CenterVertically
-           ){
-               Image(
-                   painter = painterResource(id = R.drawable.ic_wind),
-                   contentDescription = "description of the image",
-                   modifier = Modifier
-                       .padding(horizontal = 5.dp)
-                       .height(17.dp)
-               )
+                Text(text = "7%", fontSize = 3.0.em, color = MaterialTheme.colors.onPrimary, modifier = Modifier.padding(horizontal = 1.dp))
+            }
 
-               Text(text = "20km/h", fontSize = 3.0.em, modifier = Modifier.padding(horizontal = 1.dp))
-           }
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_exclamation),
+                    contentDescription = "description of the image",
+                    modifier = Modifier
+                        .padding(horizontal = 5.dp)
+                        .height(15.dp)
+                )
 
-           Row(
-               verticalAlignment = Alignment.CenterVertically
-           ){
-               Image(
-                   painter = painterResource(id = R.drawable.ic_drop),
-                   contentDescription = "description of the image",
-                   modifier = Modifier
-                       .padding(horizontal = 5.dp)
-                       .height(15.dp)
-               )
+                Text(text = "0.533mBar", fontSize = 3.0.em, color = MaterialTheme.colors.onPrimary, modifier = Modifier.padding(horizontal = 1.dp))
+            }
+        }
 
-               Text(text = "7%", fontSize = 3.0.em,color = MaterialTheme.colors.onPrimary, modifier = Modifier.padding(horizontal = 1.dp))
-           }
+        Spacer(modifier = Modifier.height(40.dp))
 
-           Row(
-               verticalAlignment = Alignment.CenterVertically
-           ){
-               Image(
-                   painter = painterResource(id = R.drawable.ic_exclamation),
-                   contentDescription = "description of the image",
-                   modifier = Modifier
-                       .padding(horizontal = 5.dp)
-                       .height(15.dp)
-               )
-
-               Text(text = "0.533mBar", fontSize = 3.0.em,color = MaterialTheme.colors.onPrimary, modifier = Modifier.padding(horizontal = 1.dp))
-           }
-       }
-
-       Spacer(modifier = Modifier.height(40.dp))
-
-       //List Measurement Items
-       Column(
-           modifier = Modifier.fillMaxWidth(0.90f),
-       ) {
-           WeatherMeasurementListItem("Temperature", "Celcius", R.drawable.ic_right_chevron)
-           Spacer(modifier = Modifier.height(30.dp))
-           WeatherMeasurementListItem("Wind Speed", "m/s", R.drawable.ic_right_chevron)
-           Spacer(modifier = Modifier.height(30.dp))
-           WeatherMeasurementListItem("Source", "weather.gov", R.drawable.ic_right_chevron)
-
-       }
-   }
-
+        // List Measurement Items
+        Column(
+            modifier = Modifier.fillMaxWidth(0.90f),
+        ) {
+            WeatherMeasurementListItem("Temperature", "Celcius", R.drawable.ic_right_chevron)
+            Spacer(modifier = Modifier.height(30.dp))
+            WeatherMeasurementListItem("Wind Speed", "m/s", R.drawable.ic_right_chevron)
+            Spacer(modifier = Modifier.height(30.dp))
+            WeatherMeasurementListItem("Source", "weather.gov", R.drawable.ic_right_chevron)
+        }
+    }
 }
-
-
 
 @Composable
 fun WeatherMeasurementListItem(
-    measurement : String,
-    value : String,
-    icon : Int
-){
+    measurement: String,
+    value: String,
+    icon: Int
+) {
 
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
-    ){
-        Text(text = "$measurement",fontSize = 3.5.em)
+    ) {
+        Text(text = "$measurement", fontSize = 3.5.em)
 
         Row(
             modifier = Modifier.wrapContentWidth(),
@@ -305,15 +303,12 @@ fun WeatherMeasurementListItem(
 }
 @Composable
 fun LocationWeatherList(
-    weatherInfoList : List<WeatherInfo>
-){
+    weatherInfoList: List<WeatherInfo>
+) {
     VerticalGrid(
         modifier = Modifier.verticalScroll(rememberScrollState()),
         content = {
-            weatherInfoList.forEach { screen -> WeatherCard(weatherInfo =  screen) }
+            weatherInfoList.forEach { screen -> WeatherCard(weatherInfo = screen) }
         }
     )
 }
-
-
-

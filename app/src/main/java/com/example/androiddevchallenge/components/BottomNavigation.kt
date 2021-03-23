@@ -1,3 +1,18 @@
+/*
+ * Copyright 2021 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.example.androiddevchallenge.components
 
 import androidx.annotation.StringRes
@@ -21,12 +36,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigate
 import com.example.androiddevchallenge.R
 
-
 sealed class BottomNavigationScreens(val route: String, @StringRes val resourceId: Int, val icon: Int) {
     object CurrentWeatherPage : BottomNavigationScreens("CurrentWeatherPage", R.string.currentWeather, R.drawable.ic_rainy)
     object DetailedWeatherList : BottomNavigationScreens("DetailedWeatherList", R.string.temperature, R.drawable.ic_thermometer)
 }
-
 
 @Composable
 fun WeatherAppBottomNavigation(
@@ -34,7 +47,7 @@ fun WeatherAppBottomNavigation(
     items: List<BottomNavigationScreens>
 ) {
     BottomNavigation(
-        modifier = Modifier.background(MaterialTheme.colors.surface) ,
+        modifier = Modifier.background(MaterialTheme.colors.surface),
         backgroundColor = MaterialTheme.colors.surface
     ) {
         val currentRoute = currentRoute(navController)
@@ -61,7 +74,6 @@ fun WeatherAppBottomNavigation(
         }
     }
 }
-
 
 @Composable
 private fun currentRoute(navController: NavHostController): String? {
