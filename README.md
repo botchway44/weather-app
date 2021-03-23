@@ -1,27 +1,27 @@
-# Template repository
+# Weather App
 
-Template repository for the Jetpack Compose [#AndroidDevChallenge](https://developer.android.com/dev-challenge).
+<!--- Replace <OWNER> with your Github Username and <REPOSITORY> with the name of your repository. -->
+<!--- You can find both of these in the url bar when you open your repository in github. -->
+![Workflow result](https://github.com/botchway44/weather-app/workflows/Check/badge.svg)
 
-## Getting started
-Copy this repository by pressing the "Use this template" button in Github.
-Clone your repository and open it in the latest [Android Studio (Canary build)](https://developer.android.com/studio/preview).
 
-## Submission requirements
-- Follow the challenge description on the project website: [developer.android.com/dev-challenge](https://developer.android.com/dev-challenge)
-- All UI should be written using Jetpack Compose
-- The Github Actions workflow should complete successfully
-- Include two screenshots of your submission in the [results](results) folder. The names should be
-  screenshot_1.png and screenshot_2.png.
-- Include a screen record of your submission in the [results](results) folder. The name should be
-  video.mp4
-- Replace the contents of [README.md](README.md) with the contents of [README-template.md](README-template.md) and fill out the template.
+## :scroll: Description
+<!--- Describe your app in one or two sentences -->
+This App Shows The Weather Forecast of specific cities or locations. That is the current temperature, humidity and wind.
 
-## Code formatting
-The CI uses [Spotless](https://github.com/diffplug/spotless) to check if your code is formatted correctly and contains the right licenses.
-Internally, Spotless uses [ktlint](https://github.com/pinterest/ktlint) to check the formatting of your code.
-To set up ktlint correctly with Android Studio, follow one of the [listed setup options](https://github.com/pinterest/ktlint#-with-intellij-idea).
+## :bulb: Motivation and Context
+TheAndroidShow- Jetpack Compose Livestream was my hitting point. Kari Byron nailed it. It got me to add it to my watch later but Where is the XML was the tipping point. 😂. I instantly decided to look into what jetpack compose had over the weekend. 
+I later checked the website on the 20th and realized there was a weekly challenge. I have been building for android for a while, so i knew this was going to be great. I found this design on ![Dribble](https://dribbble.com/shots/15292603-Weather-Conceptual-App-Design/attachments/7046975?mode=media) and decided to take the step in designing the UI with compose. I didn't know weekly challenges were been put up for compose. 
+i decided to give it a try. It was 2 days from the deadline and yeah i did it. 
+<!--- What are you especially proud of? -->
+Spending an entire day wrapping my head around compose for the first time, for me is really interesting.
 
-Before committing your code, run `./gradlew app:spotlessApply` to automatically format your code.
+I literally spent a day wrapping my heard around the new design -especially modifiers 😁 and i think i love it. The preview mode is great, just slow on a bit. I love the new canvas system and the ability to make reusable components.
+Something i really suffered with. This is my first time writing kotlin code which is also a great experience since i almost do everything in java.
+
+## :camera_flash: Screenshots
+<!-- You can add more screenshots here if you like -->
+<img src="/results/screenshot_1.png" width="260">&emsp;<img src="/results/screenshot_2.png" width="260">
 
 ## License
 ```

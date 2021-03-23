@@ -1,10 +1,10 @@
 package com.example.androiddevchallenge.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.LocalContentColor
@@ -39,7 +39,7 @@ fun SearchBar(
 
     ) {
         Image(
-            painter = painterResource(R.drawable.ic_search),
+            painter = painterResource(R.drawable.ic_magnifying_glass),
             contentDescription = "description of the image",
             modifier = Modifier
                 .padding(horizontal = 20.dp)
@@ -106,6 +106,7 @@ fun SearchBarLayout(
 
         ) {
 
+            //Manually place items on screen
             placeables[0].place(0,0);
             placeables[1].place(10,0);
             placeables[2].place(constraints.maxWidth - 100,0);
