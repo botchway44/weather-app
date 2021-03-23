@@ -9,7 +9,7 @@
       or implied. See the License for the specific language governing permissions and limitations under
       the License.
       -->
-    <string name="app_name">AndroidDevChallenge</string>
+    <string name="app_name">Weather App</string>
     <string name="temperature">Temperature</string>
     <string name="currentWeather">Current</string>
 </resources>

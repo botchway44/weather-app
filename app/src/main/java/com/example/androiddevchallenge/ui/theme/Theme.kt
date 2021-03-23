@@ -27,7 +27,7 @@ private val DarkColorPalette = darkColors(
     primary = purple200,
     primaryVariant = purple700,
     secondary = teal200,
-
+    surface = surface,
     background = backgroundColor,
     onPrimary = Color.White,
     onSecondary = Color.White,
