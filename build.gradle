@@ -22,11 +22,17 @@ buildscript {
     repositories {
         google()
         jcenter()
+
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:7.0.0-alpha10'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jlleitschuh.gradle:ktlint-gradle:9.2.1"
+
     }
 }
 
@@ -41,6 +47,8 @@ subprojects {
     }
 
     apply plugin: 'com.diffplug.spotless'
+    apply plugin: "org.jlleitschuh.gradle.ktlint"
+
     spotless {
         kotlin {
             target '**/*.kt'

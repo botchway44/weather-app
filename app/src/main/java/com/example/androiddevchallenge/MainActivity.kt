@@ -16,13 +16,11 @@
 package com.example.androiddevchallenge
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,19 +37,12 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Paint
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.input.pointer.consumeAllChanges
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -66,7 +57,7 @@ import com.example.androiddevchallenge.components.VerticalGrid
 import com.example.androiddevchallenge.components.WeatherAppBottomNavigation
 import com.example.androiddevchallenge.components.WeatherCard
 import com.example.androiddevchallenge.data.WeatherInfo
-import com.example.androiddevchallenge.data.initalWeather
+import com.example.androiddevchallenge.data.initialWeather
 import com.example.androiddevchallenge.ui.theme.MyTheme
 
 class MainActivity : AppCompatActivity() {
@@ -80,27 +71,19 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-// Start building your app here!
-@Composable
-fun MyApp() {
-    Surface(color = MaterialTheme.colors.background) {
-        Text(text = "Ready... Set... GO!")
-    }
-}
-
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
     val bottomNavigationItems = listOf(
         BottomNavigationScreens.CurrentWeatherPage,
-        BottomNavigationScreens.DetailedWeatherList,
+        BottomNavigationScreens.DetailedWeatherList
     )
     Surface(color = MaterialTheme.colors.background) {
         Scaffold(
             backgroundColor = MaterialTheme.colors.surface,
             bottomBar = {
                 WeatherAppBottomNavigation(navController, bottomNavigationItems)
-            },
+            }
         ) {
             MainScreenNavigationConfigurations(navController)
         }
@@ -119,7 +102,7 @@ private fun MainScreenNavigationConfigurations(
 
         composable(BottomNavigationScreens.DetailedWeatherList.route) {
             Column(
-                modifier = Modifier.padding(horizontal = 10.dp,)
+                modifier = Modifier.padding(horizontal = 10.dp)
             ) {
                 Spacer(modifier = Modifier.height(30.dp))
 
@@ -127,13 +110,13 @@ private fun MainScreenNavigationConfigurations(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(30.dp))
-                        .padding(horizontal = 2.dp,)
+                        .padding(horizontal = 2.dp)
                         .height(50.dp)
                 )
 
                 Spacer(modifier = Modifier.height(30.dp))
 
-                LocationWeatherList(initalWeather)
+                LocationWeatherList(initialWeather)
             }
         }
     }
@@ -181,99 +164,20 @@ fun CurrentWeatherStatus() {
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        //Store offset values
-        var offsetX = remember { mutableStateOf(0f) }
-        var offsetY = remember { mutableStateOf(0f) }
-
-
         Canvas(
 
             modifier = Modifier
                 .fillMaxWidth()
-                .height(200.dp).pointerInput(Unit) {
-                    detectDragGestures { change, dragAmount ->
-                        change.consumeAllChanges()
-                        offsetX += dragAmount.x
-                        offsetY += dragAmount.y
-                        Log.d("offset => ", offsetX.toString()+" "+ offsetY.toString())
-                    }
-                },
+                .height(200.dp),
 
             onDraw = {
                 val canvasWidth = size.width
                 val canvasHeight = size.height
-
-                //Draw shadows at the back of the painting
-                val paint = Paint()
-                val frameworkPaint = paint.asFrameworkPaint()
-                frameworkPaint.color = Color(0xFF121212).toArgb()
-                frameworkPaint.setShadowLayer(
-                    12f,
-                    13f,
-                    12f,
-                    Color(0xFFB358DC).toArgb()
+                drawCircle(
+                    brush = Brush.linearGradient(listOf(Color(0xFF36A8FD), Color(0xFFB358DC), Color(0xFFB358DC), Color(0xFF36A8FD), Color(0xFFB358DC), Color(0xFF36A8FD), Color(0xFFB358DC), Color(0xFF36A8FD))),
+                    center = Offset(x = canvasWidth / 2, y = canvasHeight / 2),
+                    radius = size.minDimension / 2.8f
                 )
-
-                    offsetX.value = canvasWidth / 2;
-                offsetY.value = canvasHeight / 2;
-
-               drawCircle(
-                      brush =  Brush.linearGradient(
-                          listOf(
-                              Color(0xFF36A8FD),Color(0xFFB358DC),
-                              Color(0xFF152C39),
-                              Color(0xFFB358DC), Color(0xFF36A8FD),
-                              Color(0xFFB358DC), Color(0xFF36A8FD),
-                              Color(0xFFB358DC), Color(0xFF36A8FD)
-                          )
-
-                      ),
-
-                      center = Offset(x = offsetX.value, y = offsetY.value),
-                      radius = size.minDimension / 2.8f
-                  )
-
-
-
-//                drawCircle(
-//                    brush =  Brush.linearGradient(
-//                        listOf(
-//                            Color(0xFFB358DC), Color(0xFF36A8FD),
-//                            Color(0xFFB358DC), Color(0xFF36A8FD),
-//                            Color(0xFFB358DC), Color(0xFF36A8FD)
-//                        )
-//                    ),
-//                    center = Offset(x = canvasWidth / 2, y = canvasHeight / 2),
-//                    radius = size.minDimension / 2.6f,
-//                    alpha = 0.90f
-//                )
-
-//                drawCircle(
-//                    brush =  Brush.linearGradient(
-//                        listOf(
-//                            Color(0xFFB358DC), Color(0xFF36A8FD),
-//                            Color(0xFFB358DC), Color(0xFF36A8FD),
-//                            Color(0xFFB358DC), Color(0xFF36A8FD)
-//                        )
-//                    ),
-//                    center = Offset(x = canvasWidth / 2, y = canvasHeight / 2),
-//                    radius = size.minDimension / 2.4f,
-//                    alpha = 0.96f
-//                )
-
-//                drawCircle(
-//                    brush =  Brush.linearGradient(
-//                        listOf(
-//                            Color(0xFFB358DC), Color(0xFF36A8FD),
-//                            Color(0xFFB358DC), Color(0xFF36A8FD),
-//                            Color(0xFFB358DC), Color(0xFF36A8FD)
-//                        )
-//                    ),
-//                    center = Offset(x = canvasWidth / 2, y = canvasHeight / 2),
-//                    radius = size.minDimension / 2.2f,
-//                    alpha = 0.96f
-//                )
-
             }
         )
 
@@ -315,7 +219,6 @@ fun CurrentWeatherStatus() {
                         .padding(horizontal = 5.dp)
                         .height(15.dp)
                 )
-
                 Text(text = "7%", fontSize = 3.0.em, color = MaterialTheme.colors.onPrimary, modifier = Modifier.padding(horizontal = 1.dp))
             }
 
@@ -338,7 +241,7 @@ fun CurrentWeatherStatus() {
 
         // List Measurement Items
         Column(
-            modifier = Modifier.fillMaxWidth(0.90f),
+            modifier = Modifier.fillMaxWidth(0.90f)
         ) {
             WeatherMeasurementListItem("Temperature", "Celcius", R.drawable.ic_right_chevron)
             Spacer(modifier = Modifier.height(30.dp))
@@ -347,10 +250,6 @@ fun CurrentWeatherStatus() {
             WeatherMeasurementListItem("Source", "weather.gov", R.drawable.ic_right_chevron)
         }
     }
-}
-
-private operator fun <Float> MutableState<Float>.plusAssign(y: Float) {
-
 }
 
 @Composable
@@ -365,14 +264,14 @@ fun WeatherMeasurementListItem(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text = "$measurement", fontSize = 3.5.em)
+        Text(text = measurement, fontSize = 3.5.em)
 
         Row(
             modifier = Modifier.wrapContentWidth(),
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically
 
         ) {
-            Text(text = "$value", fontSize = 3.0.em)
+            Text(text = value, fontSize = 3.0.em)
 
             Image(
                 painter = painterResource(id = icon),

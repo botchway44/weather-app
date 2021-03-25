@@ -43,8 +43,7 @@ fun SearchBar(
 ) {
     Row(
         modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
             painter = painterResource(R.drawable.ic_magnifying_glass),
@@ -95,7 +94,7 @@ fun SearchBarLayout(
 
     Layout(
         content = content,
-        modifier = modifier,
+        modifier = modifier
     ) { measurables, constraints ->
 
         // Measure each item with these constraints
